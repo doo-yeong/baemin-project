@@ -40,4 +40,12 @@ public class UserRepository {
         }
 
     }
+
+    public User findByEmail(String email) {
+        try {
+            return em.createQuery("select u from User u", User.class).getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
 }

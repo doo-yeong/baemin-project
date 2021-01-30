@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "656816812274",
+    "project_id": "avid-influence-300707",
+    "storage_bucket": "avid-influence-300707.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656816812274:android:f69162737eafa2b785606b",
+        "android_client_info": {
+          "package_name": "com.example.deliverypeople"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656816812274-3f1mommopi8n0uh9ua6liigrfhj8vsr6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLef88nAPDO_2Hxg5ZIM9mnvBAP4mVLY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656816812274-3f1mommopi8n0uh9ua6liigrfhj8vsr6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -36,4 +36,8 @@ public class UserService {
     public boolean signIn(User user) {
         return userRepository.existsByUser(user);
     }
+
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 }

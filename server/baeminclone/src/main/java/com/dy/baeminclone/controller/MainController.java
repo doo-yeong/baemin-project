@@ -48,6 +48,7 @@ public class MainController {
         try {
             response.setResult(userService.signUp(user) != null);
         } catch (UnexpectedRollbackException e) {
+            response.getContent().put("reason", "error");
             logger.warn("Rollback");
         }
 
@@ -57,7 +58,13 @@ public class MainController {
     @PostMapping("/users/signin")
     public JsonResponse signIn(@RequestBody RequestUser requestUser){
         JsonResponse response = new JsonResponse();
-        User user = getUser(requestUser);
+        User user = userService.getUserByEmail(requestUser.getEmail());
+
+        if(user == null){
+            response.setResult(false);
+            return response;
+        }
+
         boolean result;
 
         result = userService.signIn(user);

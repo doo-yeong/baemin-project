@@ -2,6 +2,7 @@ package com.dy.baeminclone.service;
 
 import com.dy.baeminclone.domain.Cart;
 import com.dy.baeminclone.domain.User;
+import com.dy.baeminclone.repository.CartRepository;
 import com.dy.baeminclone.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,11 +19,11 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
 
-
     public User signUp(User user) {
         user.setRegdate(LocalDateTime.now());
         try {
-            Cart cart = new Cart(user);
+            Cart cart = new Cart();
+            cart.setUser(user);
             userRepository.save(user);
         } catch (Throwable e){
             logger.error(e.getMessage());

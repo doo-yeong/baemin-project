@@ -26,7 +26,6 @@ import java.util.List;
 public class Cart {
 
     public Cart(User user) {
-        this.user = user;
         user.setCart(this);
     }
 

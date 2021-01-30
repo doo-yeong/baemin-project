@@ -16,3 +16,11 @@ spring:
 logging:
   level:
     org.hibernate.type.descriptor.sql: debug
+
+#server:
+#  ssl:
+#    key-store: keystore.p12
+#    key-store-password: 123456
+#    keyStoreType: PKCS12
+#    keyAlias: tomcat
+#  port: 8443

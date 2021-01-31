@@ -1,10 +1,8 @@
 package com.dy.baeminclone.controller;
 
-import com.dy.baeminclone.domain.Cart;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
 import com.dy.baeminclone.rest.RequestUser;
-import com.dy.baeminclone.service.CartService;
 import com.dy.baeminclone.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

@@ -10,6 +10,8 @@
 
 
 
+
+
 ### 1. build (without test)
 
 ```
@@ -23,4 +25,3 @@ baemin-project\server\baeminclone> gradlew clean build -x test
 ```
 baemin-project\server\baeminclone\build\libs> java -jar <file name>
 ```
-

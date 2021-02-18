@@ -39,6 +39,8 @@ public class Store {
 
     private String name;
 
+    private String category;
+
     private LocalDateTime regdate;
 
     @Column(name = "min_price")

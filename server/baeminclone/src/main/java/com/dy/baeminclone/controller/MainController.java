@@ -1,8 +1,10 @@
 package com.dy.baeminclone.controller;
 
+import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
 import com.dy.baeminclone.rest.RequestUser;
+import com.dy.baeminclone.service.StoreService;
 import com.dy.baeminclone.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -10,9 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.PostConstruct;
+import java.awt.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +28,12 @@ public class MainController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final PasswordEncoder encoder;
     private final UserService userService;
+    private final StoreService storeService;
+
+    @PostConstruct
+    public void init(){
+        storeService.loadStores();
+    }
 
     private User getUser(RequestUser requestUser) {
         return User.builder()
@@ -77,6 +90,20 @@ public class MainController {
         return response;
     }
 
+    @GetMapping("/stores/{category}")
+    public JsonResponse getStore(@PathVariable String category){
+        JsonResponse response = new JsonResponse();
+        List<Store> storeList = storeService.getStoreListByCategory(category);
 
+        if(storeList == null){
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("stores", storeList);
+
+        return response;
+    }
 
 }

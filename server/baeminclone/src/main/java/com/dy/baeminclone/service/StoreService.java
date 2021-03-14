@@ -1,6 +1,8 @@
 package com.dy.baeminclone.service;
 
+import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
+import com.dy.baeminclone.repository.MenuRepository;
 import com.dy.baeminclone.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 @Transactional
 public class StoreService {
     private final StoreRepository storeRepository;
+    private final MenuRepository menuRepository;
 
     public List<Store> getStoreListByCategory(String category) {
         List<Store> storeList = new ArrayList<>();
@@ -23,35 +26,25 @@ public class StoreService {
     }
 
     public void loadStores() {
-        Store store1 = Store.builder()
-                .category("1")
-                .name("store1")
-                .build();
+        makeAndSaveStore("store1", "1");
+        makeAndSaveStore("store2", "2");
+        makeAndSaveStore("store3", "2");
+        makeAndSaveStore("store4", "1");
+        makeAndSaveStore("store5", "3");
 
-        Store store2 = Store.builder()
-                .category("2")
-                .name("store2")
-                .build();
+    }
 
-        Store store3 = Store.builder()
-                .category("1")
-                .name("store3")
+    private Store makeAndSaveStore(String name, String category) {
+        Store store = Store.builder()
+                .category(category)
+                .name(name)
                 .build();
+        Menu menu1 = new Menu(store, "menu 1", 3000);
+        Menu menu2 = new Menu(store, "menu 2", 2000);
+        Menu menu3 = new Menu(store, "menu 3", 6000);
 
-        Store store4 = Store.builder()
-                .category("1")
-                .name("store4")
-                .build();
+        storeRepository.save(store);
 
-        Store store5 = Store.builder()
-                .category("2")
-                .name("store5")
-                .build();
-
-        storeRepository.save(store1);
-        storeRepository.save(store2);
-        storeRepository.save(store3);
-        storeRepository.save(store4);
-        storeRepository.save(store5);
+        return store;
     }
 }

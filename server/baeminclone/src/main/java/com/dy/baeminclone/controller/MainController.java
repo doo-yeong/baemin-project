@@ -1,5 +1,6 @@
 package com.dy.baeminclone.controller;
 
+import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
@@ -89,6 +90,22 @@ public class MainController {
         return response;
     }
 
+    @GetMapping("/stores")
+    public JsonResponse getStores(){
+        JsonResponse response = new JsonResponse();
+        List<Store> storeList = storeService.getAll();
+
+        if(storeList == null){
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("stores", storeList);
+
+        return response;
+    }
+
     @GetMapping("/stores/{category}")
     public JsonResponse getStore(@PathVariable String category){
         JsonResponse response = new JsonResponse();
@@ -105,4 +122,19 @@ public class MainController {
         return response;
     }
 
+    @GetMapping("/menus/{storeId}")
+    public JsonResponse getMenus(@PathVariable Long storeId){
+        JsonResponse response = new JsonResponse();
+        List<Menu> menuList = storeService.getMenuListByStoreId(storeId);
+
+        if (menuList == null) {
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("menus", menuList);
+
+        return response;
+    }
 }

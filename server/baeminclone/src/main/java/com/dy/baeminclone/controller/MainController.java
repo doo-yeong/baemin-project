@@ -1,5 +1,6 @@
 package com.dy.baeminclone.controller;
 
+import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
-import java.awt.*;
 import java.util.List;
 
 @RestController
@@ -30,7 +30,7 @@ public class MainController {
     private final UserService userService;
     private final StoreService storeService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init(){
         storeService.loadStores();
     }
@@ -106,4 +106,19 @@ public class MainController {
         return response;
     }
 
+    @GetMapping("/menus/{storeId}")
+    public JsonResponse getMenus(@PathVariable Long storeId){
+        JsonResponse response = new JsonResponse();
+        List<Menu> menuList = storeService.getMenuListByStoreId(storeId);
+
+        if (menuList == null) {
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("menus", menuList);
+
+        return response;
+    }
 }

@@ -1,5 +1,6 @@
 package com.dy.baeminclone.service;
 
+import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,5 +54,10 @@ public class StoreService {
         storeRepository.save(store3);
         storeRepository.save(store4);
         storeRepository.save(store5);
+    }
+
+    public List<Menu> getMenuListByStoreId(Long id) {
+        Store store = storeRepository.getStoreById(id);
+        return store == null ? null : store.getMenuList();
     }
 }

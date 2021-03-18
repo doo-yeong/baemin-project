@@ -25,4 +25,8 @@ public class StoreRepository {
     public Store getStoreById(Long id) {
         return em.find(Store.class, id);
     }
+
+    public List<Store> getStores() {
+        return em.createQuery("SELECT s FROM Store s", Store.class).getResultList();
+    }
 }

@@ -29,10 +29,11 @@ import java.util.List;
 @JsonIgnoreProperties("store")
 public class Menu {
 
-    public Menu(Store store, String name, int price) {
+    public Menu(Store store, String name, int price, String imageUrl) {
         setStore(store);
         this.name = name;
         this.price = price;
+        this.imageUrl = imageUrl;
     }
 
     @Id

@@ -30,7 +30,7 @@ public class MainController {
     private final UserService userService;
     private final StoreService storeService;
 
-//    @PostConstruct
+    @PostConstruct
     public void init(){
         storeService.loadStores();
     }
@@ -86,6 +86,22 @@ public class MainController {
         }
 
         response.setResult(result);
+
+        return response;
+    }
+
+    @GetMapping("/stores")
+    public JsonResponse getStores(){
+        JsonResponse response = new JsonResponse();
+        List<Store> storeList = storeService.getAll();
+
+        if(storeList == null){
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("stores", storeList);
 
         return response;
     }

@@ -39,12 +39,21 @@ public class StoreService {
                 .category(category)
                 .name(name)
                 .build();
-        Menu menu1 = new Menu(store, "menu 1", 3000);
-        Menu menu2 = new Menu(store, "menu 2", 2000);
-        Menu menu3 = new Menu(store, "menu 3", 6000);
+        Menu menu1 = new Menu(store, "menu 1", 3000, "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8Zm9vZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+        Menu menu2 = new Menu(store, "menu 2", 2000, "https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixid=MXwxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
+        Menu menu3 = new Menu(store, "menu 3", 6000, "https://images.unsplash.com/photo-1529042410759-befb1204b468?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MTR8fGZvb2R8ZW58MHx8MHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60");
 
         storeRepository.save(store);
 
         return store;
+    }
+
+    public List<Menu> getMenuListByStoreId(Long id) {
+        Store store = storeRepository.getStoreById(id);
+        return store == null ? null : store.getMenuList();
+    }
+
+    public List<Store> getAll() {
+        return storeRepository.getStores();
     }
 }

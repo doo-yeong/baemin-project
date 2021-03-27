@@ -1,5 +1,6 @@
 package com.dy.baeminclone.controller;
 
+import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
@@ -31,7 +32,7 @@ public class MainController {
     private final StoreService storeService;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         userService.loadUsers();
         storeService.loadStores();
     }
@@ -48,12 +49,12 @@ public class MainController {
     }
 
     @GetMapping("/encode-test")
-    public String test(){
+    public String test() {
         return "test : " + encoder.encode("test");
     }
 
     @PostMapping("/users/signup")
-    public JsonResponse signUp(@RequestBody RequestUser requestUser){
+    public JsonResponse signUp(@RequestBody RequestUser requestUser) {
         JsonResponse response = new JsonResponse();
 
         User user = getUser(requestUser);
@@ -68,11 +69,11 @@ public class MainController {
     }
 
     @PostMapping("/users/signin")
-    public JsonResponse signIn(@RequestBody RequestUser requestUser){
+    public JsonResponse signIn(@RequestBody RequestUser requestUser) {
         JsonResponse response = new JsonResponse();
         User user = userService.getUserByEmail(requestUser.getEmail());
 
-        if(user == null){
+        if (user == null) {
             response.setResult(false);
             return response;
         }
@@ -81,7 +82,7 @@ public class MainController {
 
         result = userService.signIn(user);
 
-        if(result){
+        if (result) {
             response.getContent().put("username", user.getUsername());
             logger.info(user.toString());
         }
@@ -91,12 +92,12 @@ public class MainController {
         return response;
     }
 
-    @GetMapping("/stores/{category}")
-    public JsonResponse getStore(@PathVariable String category){
+    @GetMapping("/stores")
+    public JsonResponse getStores() {
         JsonResponse response = new JsonResponse();
-        List<Store> storeList = storeService.getStoreListByCategory(category);
+        List<Store> storeList = storeService.getAll();
 
-        if(storeList == null){
+        if (storeList == null) {
             response.setResult(false);
             return response;
         }
@@ -107,20 +108,54 @@ public class MainController {
         return response;
     }
 
-    @PostMapping("/payment")
-    public JsonResponse pay(@RequestBody RequestPayment requestPayment){
+    @GetMapping("/stores/{category}")
+    public JsonResponse getStore(@PathVariable String category) {
         JsonResponse response = new JsonResponse();
-        Long result = userService.pay(requestPayment.getEmail(), requestPayment.getTotalPrice());
+        List<Store> storeList = storeService.getStoreListByCategory(category);
 
-        if(null == result){
+        if (storeList == null) {
             response.setResult(false);
             return response;
         }
 
         response.setResult(true);
-        response.getContent().put("account",result);
+        response.getContent().put("stores", storeList);
+
+        return response;
+    }
+
+    @GetMapping("/menus/{storeId}")
+    public JsonResponse getMenus(@PathVariable Long storeId) {
+        JsonResponse response = new JsonResponse();
+        List<Menu> menuList = storeService.getMenuListByStoreId(storeId);
+
+        if (menuList == null) {
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+
+        response.getContent().put("menus", menuList);
+
+        return response;
+    }
+
+    @PostMapping("/payment")
+    public JsonResponse pay(@RequestBody RequestPayment requestPayment) {
+        JsonResponse response = new JsonResponse();
+        Long result = userService.pay(requestPayment.getEmail(), requestPayment.getTotalPrice());
+
+        if (null == result) {
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("account", result);
 
         return response;
     }
 
 }
+

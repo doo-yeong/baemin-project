@@ -1,6 +1,5 @@
 package com.dy.baeminclone.rest;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -3,6 +3,7 @@ package com.dy.baeminclone.controller;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
+import com.dy.baeminclone.rest.RequestPayment;
 import com.dy.baeminclone.rest.RequestUser;
 import com.dy.baeminclone.service.StoreService;
 import com.dy.baeminclone.service.UserService;
@@ -31,6 +32,7 @@ public class MainController {
 
     @PostConstruct
     public void init(){
+        userService.loadUsers();
         storeService.loadStores();
     }
 
@@ -101,6 +103,22 @@ public class MainController {
 
         response.setResult(true);
         response.getContent().put("stores", storeList);
+
+        return response;
+    }
+
+    @PostMapping("/payment")
+    public JsonResponse pay(@RequestBody RequestPayment requestPayment){
+        JsonResponse response = new JsonResponse();
+        Long result = userService.pay(requestPayment.getEmail(), requestPayment.getTotalPrice());
+
+        if(null == result){
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("account",result);
 
         return response;
     }

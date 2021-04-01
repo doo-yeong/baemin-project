@@ -4,6 +4,7 @@ import com.dy.baeminclone.domain.Menu;
 import com.dy.baeminclone.domain.Store;
 import com.dy.baeminclone.domain.User;
 import com.dy.baeminclone.rest.JsonResponse;
+import com.dy.baeminclone.rest.RequestPayment;
 import com.dy.baeminclone.rest.RequestUser;
 import com.dy.baeminclone.service.StoreService;
 import com.dy.baeminclone.service.UserService;
@@ -31,7 +32,8 @@ public class MainController {
     private final StoreService storeService;
 
     @PostConstruct
-    public void init(){
+    public void init() {
+        userService.loadUsers();
         storeService.loadStores();
     }
 
@@ -47,12 +49,12 @@ public class MainController {
     }
 
     @GetMapping("/encode-test")
-    public String test(){
+    public String test() {
         return "test : " + encoder.encode("test");
     }
 
     @PostMapping("/users/signup")
-    public JsonResponse signUp(@RequestBody RequestUser requestUser){
+    public JsonResponse signUp(@RequestBody RequestUser requestUser) {
         JsonResponse response = new JsonResponse();
 
         User user = getUser(requestUser);
@@ -67,11 +69,11 @@ public class MainController {
     }
 
     @PostMapping("/users/signin")
-    public JsonResponse signIn(@RequestBody RequestUser requestUser){
+    public JsonResponse signIn(@RequestBody RequestUser requestUser) {
         JsonResponse response = new JsonResponse();
         User user = userService.getUserByEmail(requestUser.getEmail());
 
-        if(user == null){
+        if (user == null) {
             response.setResult(false);
             return response;
         }
@@ -80,7 +82,7 @@ public class MainController {
 
         result = userService.signIn(user);
 
-        if(result){
+        if (result) {
             response.getContent().put("username", user.getUsername());
             logger.info(user.toString());
         }
@@ -91,11 +93,11 @@ public class MainController {
     }
 
     @GetMapping("/stores")
-    public JsonResponse getStores(){
+    public JsonResponse getStores() {
         JsonResponse response = new JsonResponse();
         List<Store> storeList = storeService.getAll();
 
-        if(storeList == null){
+        if (storeList == null) {
             response.setResult(false);
             return response;
         }
@@ -107,11 +109,11 @@ public class MainController {
     }
 
     @GetMapping("/stores/{category}")
-    public JsonResponse getStore(@PathVariable String category){
+    public JsonResponse getStore(@PathVariable String category) {
         JsonResponse response = new JsonResponse();
         List<Store> storeList = storeService.getStoreListByCategory(category);
 
-        if(storeList == null){
+        if (storeList == null) {
             response.setResult(false);
             return response;
         }
@@ -123,7 +125,7 @@ public class MainController {
     }
 
     @GetMapping("/menus/{storeId}")
-    public JsonResponse getMenus(@PathVariable Long storeId){
+    public JsonResponse getMenus(@PathVariable Long storeId) {
         JsonResponse response = new JsonResponse();
         List<Menu> menuList = storeService.getMenuListByStoreId(storeId);
 
@@ -133,8 +135,27 @@ public class MainController {
         }
 
         response.setResult(true);
+
         response.getContent().put("menus", menuList);
 
         return response;
     }
+
+    @PostMapping("/payment")
+    public JsonResponse pay(@RequestBody RequestPayment requestPayment) {
+        JsonResponse response = new JsonResponse();
+        Long result = userService.pay(requestPayment.getEmail(), requestPayment.getTotalPrice());
+
+        if (null == result) {
+            response.setResult(false);
+            return response;
+        }
+
+        response.setResult(true);
+        response.getContent().put("account", result);
+
+        return response;
+    }
+
 }
+

@@ -19,6 +19,21 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
 
+    public void loadUsers() {
+        User user = User.builder()
+                .email("user01@test.com")
+                .username("user01")
+                .password("user01")
+                .account(100000L)
+                .regdate(LocalDateTime.now())
+                .build();
+        try {
+            userRepository.save(user);
+        } catch (Throwable t){
+            t.printStackTrace();
+        }
+    }
+
     public User signUp(User user) {
         user.setRegdate(LocalDateTime.now());
         try {
@@ -40,4 +55,20 @@ public class UserService {
     public User getUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    public Long pay(String userEmail, Long totalPrice) {
+        User user = getUserByEmail(userEmail);
+        Long totalAccount = user.getAccount();
+        Long afterAccount = totalAccount - totalPrice;
+
+        if(afterAccount < 0){
+            return null;
+        }
+
+        user.setAccount(afterAccount);
+
+        return afterAccount;
+    }
+
+
 }

@@ -70,7 +70,5 @@ public class User {
 
     private String nickname;
 
-    //  private boolean agreement;
-
-    //  private int level;
+    private Long account;
 }

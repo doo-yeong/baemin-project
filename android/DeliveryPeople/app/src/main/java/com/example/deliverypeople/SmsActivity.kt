@@ -1,30 +1,17 @@
 package com.example.deliverypeople
 
-import android.content.BroadcastReceiver
-import android.content.Context
+
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.*
-
-
-import androidx.core.content.ContextCompat
-import com.google.android.gms.auth.api.phone.SmsRetriever
-import com.google.android.gms.common.api.CommonStatusCodes
-import com.google.android.gms.common.api.Status
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
-import java.util.*
-import kotlin.collections.ArrayList
+import androidx.appcompat.app.AppCompatActivity
 
 // stop 생명주기에 checkbox 초기화
 class SmsActivity : AppCompatActivity() {
+    companion object{
+        var phoneNu : String? = null
+    }
     var sms_et : EditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +42,9 @@ class SmsActivity : AppCompatActivity() {
 
         smsToNext.setOnClickListener {
             val toNext = Intent(this, UserRegisterLastActivity::class.java)
+            phoneNu = phonNum_et.toString()
             startActivity(toNext)
+
         }
 
     }

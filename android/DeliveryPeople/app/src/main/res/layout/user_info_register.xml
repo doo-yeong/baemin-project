@@ -34,9 +34,11 @@
             android:layout_marginRight="20dp"
             android:clickable="true"
             android:text="완료"
-            android:textColor="#BEBEBE"
+            android:textColor="#5EBEBB"
             android:textSize="20sp" />
+        <!--       android:textColor="#BEBEBE" -->
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이메일" />
-<!--필요시 오른쪽에 중복확인 버튼-->
+        <!--필요시 오른쪽에 중복확인 버튼-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -64,10 +66,11 @@
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="닉네임" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -76,16 +79,16 @@
                 android:id="@+id/nickname_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="2-10자내로 입력해주세요"
-                android:inputType="number" />
+                android:hint="2-10자내로 입력해주세요" />
 
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="비밀번호" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -95,14 +98,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="비밀번호를 입력해주세요"
-                />
+                android:inputType="number" />
 
         </LinearLayout>
+
         <TextView
-            android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="생년월일" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -111,7 +116,7 @@
                 android:id="@+id/birth_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="예) 2000.01.01"
+                android:hint="예) 20000101"
                 android:inputType="number" />
 
         </LinearLayout>

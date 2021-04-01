@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/bottom_1"
+        android:id="@+id/first"
+        android:enabled="true"
+        android:title="홈"
+        android:visible="true"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:icon="@drawable/bottom_2"
+        android:id="@+id/second"
+        app:showAsAction="ifRoom"
+        android:enabled="true"
+        android:title="검색"
+
+        />
+    <item
+        android:icon="@drawable/bottom_3"
+        android:id="@+id/third"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="찜한가게"
+         />
+    <item
+        android:icon="@drawable/bottom_4"
+        android:id="@+id/fourd"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:title="주문내역"
+         />
+    <item
+        android:icon="@drawable/bottom_5"
+        android:id="@+id/fifth"
+        android:enabled="true"
+        android:title="my배민"
+        app:showAsAction="ifRoom"
+         />
+</menu>
+

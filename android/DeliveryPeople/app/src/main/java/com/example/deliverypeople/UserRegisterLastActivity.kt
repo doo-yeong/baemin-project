@@ -2,37 +2,44 @@ package com.example.deliverypeople
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.widget.*
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.annotations.SerializedName
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
+import retrofit2.http.Body
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 
 // stop 생명주기에 checkbox 초기화
 
-class UserRegisterLastActivity : AppCompatActivity() {
+class UserRegisterLastActivity : AppCompatActivity(),TextWatcher {
     var result : register? = null
-
+    var email : EditText? =null
+    var nickname : EditText? = null
+    var password : EditText? = null
+    var birth : EditText? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_info_register)
-        var email : EditText = findViewById(R.id.email_et)
+         email  = findViewById(R.id.email_et)
        // var phoneNum : EditText = findViewById(R.id.phoneNum_et)
-        var nickname : EditText = findViewById(R.id.nickname_et)
-        var password : EditText = findViewById(R.id.password_et)
+         nickname = findViewById(R.id.nickname_et)
+        password  = findViewById(R.id.password_et)
+        birth  = findViewById(R.id.birth_et)
 
-        var birth : EditText = findViewById(R.id.birth_et)
-
-        var registerText : TextView = findViewById(R.id.register_finish)
+        var registerText : TextView = findViewById(R.id.register_finish) // 완료버튼
 
         var toLoginActivity = Intent(this, MainActivity::class.java)
 
@@ -44,7 +51,7 @@ class UserRegisterLastActivity : AppCompatActivity() {
 
 
         var builder = Retrofit.Builder()
-            .baseUrl("http://172.30.1.43:8080")
+            .baseUrl(MainActivity.url) // 성공
             .addConverterFactory(GsonConverterFactory.create())
 
         builder.client(httpClient.build())
@@ -56,61 +63,74 @@ class UserRegisterLastActivity : AppCompatActivity() {
 
         registerText.setOnClickListener {
             Log.d("mainsss","")
-            var email_text : String = email.text.toString()
+            var email_text : String = email!!.text.toString()
             var username_text = "kim"
-            var phoneNum_text : String = "01044051733"//phoneNum.text.toString()
-            var nickname_text : String = nickname.text.toString()
-            var password_text : String = password.text.toString()
-            var birth_text : String = birth.text.toString()
+            var phoneNum_text : String = SmsActivity.phoneNu.toString()//phoneNum.text.toString()
+            var nickname_text : String = nickname!!.text.toString()
+            var password_text : String = password!!.text.toString()
+            var birth_text : String = birth!!.text.toString()
 
-            registerService.requestSignUp(username_text,
-                email_text,
-                nickname_text,
-                password_text,
-                birth_text,
-                phoneNum_text)
+            val userInfo = register1(username_text,password_text,email_text,nickname_text,birth_text,phoneNum_text)
+            registerService.requestSignUp(userInfo)
                 .enqueue(object : Callback<register> {
                     override fun onResponse(call: Call<register>, response: Response<register>) {
-                        TODO("Not yet implemented")
-                        Log.d("mainsss_register", result!!.result.toString())
+                        result = response.body()
+                        Log.d("mainsss_register",response.code().toString()+" 다음"+response.errorBody()+"다음"+response.message())
+                        Log.d("mainsss",result!!.result.toString())
+                        if(result!!.result.equals("true")){
+                            Log.d("mainsss","회원가입성공")
+                        }
+                        else{
+                            Log.d("mainsss","중복아이디")
+                        }
                         // 루트 액티비티 종료
+                        Toast.makeText(this@UserRegisterLastActivity,"회원가입 완료!",Toast.LENGTH_SHORT).show()
                         startActivity(toLoginActivity)
                     }
 
                     override fun onFailure(call: Call<register>, t: Throwable) {
                         Log.d("mainsss_register", t.message.toString())
-                        TODO("Not yet implemented")
+                        Toast.makeText(this@UserRegisterLastActivity,"서버에러 다시 시도해 주세요",Toast.LENGTH_SHORT).show()
                     }
 
                 })
         }
 
     }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+    }
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        if(nickname!!.length()>0 && password!!.length()>0 && email!!.length()>0 && birth!!.length()>0){
+            Log.d("mainsss","글자색깔 변경")
+        }
+    }
+
+    override fun afterTextChanged(p0: Editable?) {
+
+    }
 }
 
-
-//interface signIn {
-//    @FormUrlEncoded
-//    @POST("/users/signin")
-//    fun requestSignIn(
-//        @Field("userid") userid: String,
-//        @Field("userpw") userpw: String)
-//    : Call<Login>
-//
-//}
-
 interface signUp {
-    @FormUrlEncoded
+    @Headers("Content-Type:application/json")
     @POST("/users/signup")
     fun requestSignUp(
-        @Field("username") username: String,
-        @Field("password") password: String,
-        @Field("email") email: String,
-        @Field("nickname") nickname: String,
-        @Field("birth") birth: String,
-        @Field("tel") tel: String,
+        @Body body : register1
     )
             : Call<register>
 }
 
-data class register(val result: String)
+
+data class register(
+    @SerializedName("result") val result : String
+)
+data class register1(
+    @SerializedName("username") val username : String,
+    @SerializedName("password") val password : String,
+    @SerializedName("email") val email : String,
+    @SerializedName("nickname") val nickname : String,
+    @SerializedName("birth") val birth : String,
+    @SerializedName("tel") val tel : String
+)

@@ -30,7 +30,7 @@ class StoreMenuClick :AppCompatActivity() {
         var menuprice2Text : TextView = findViewById(R.id.tv_price2_menuclick)
         var menuprice3Text : TextView = findViewById(R.id.tv_price3_menuclick)
         var getmenuBt : Button = findViewById(R.id.bt_getmenu_menuclick)
-
+        var k : Int? = 1
         menunameText.text= menuname
         menuprice1Text.text = menuprice.toString()
         menuprice2Text.text = (menuprice!!*2).toInt().toString()
@@ -40,22 +40,29 @@ class StoreMenuClick :AppCompatActivity() {
             if(isChecked==true){
                 radio2.isChecked=false
                 radio3.isChecked=false
+                menuprice = menuprice
+                k=1
             }
         }
         radio2.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked==true){
                 radio1.isChecked=false
                 radio3.isChecked=false
+                menuprice = menuprice!!.toInt()*2-1000
+                k=2
             }
         }
         radio3.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked==true){
                 radio1.isChecked=false
                 radio2.isChecked=false
+                menuprice = menuprice!!.toInt()*3-2000
+                k=3
             }
         }
         getmenuBt.setOnClickListener {
             var intent = Intent(this,StoreMenuListActivity::class.java)
+            StoreMenuListActivity.userMenuList.add(usermenu(menuname.toString(),k.toString(), menuprice.toString()))
             startActivity(intent)
             this.finish()
         }

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         val url = "http://10.0.2.2:8080"
+        var userId1 : String? = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,10 +47,9 @@ class MainActivity : AppCompatActivity() {
             loginService.requestSignIn(login).enqueue(object : Callback<result> {
                 override fun onResponse(call: Call<result>, response: Response<result>) {
                     result = response.body()
-                    Log.d("mainsss_login","성공 ")
-                    Log.d("mainsss_login",response.code().toString())
-                    Log.d("mainsss",result!!.result!!.toString())
+//                    Log.d("mainsss_login",result!!.result.toString())
                     startActivity(mainOfMainIntent)
+                    CheckOrderMenu.userId= userId.toString()
                     //if 달아서 false true인지 판별
                 }
 

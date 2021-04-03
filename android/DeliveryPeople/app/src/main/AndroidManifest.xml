@@ -23,6 +23,7 @@
         <activity android:name=".SmsActivity">
 
         </activity>
+        <activity android:name=".CheckOrderMenu"/>
         <activity android:name=".StoreMenuClick"/>
         <activity android:name=".StoreListActivity"/>
         <activity android:name=".UserRegisterLastActivity"/>

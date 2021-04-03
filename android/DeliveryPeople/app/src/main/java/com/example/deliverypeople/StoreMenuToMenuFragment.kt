@@ -80,8 +80,6 @@ class StoreMenuToMenuFragment : Fragment() {
         recyclerView!!.layoutManager = LinearLayoutManager(context)
 
         Log.d("recyclerSize",list.size.toString())
-
-
         return root
 
     }

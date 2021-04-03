@@ -1,7 +1,9 @@
 package com.example.deliverypeople
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -28,6 +30,7 @@ class StoreMenuListActivity : AppCompatActivity() {
     companion object{
         var storeId : String? = null
         var list = ArrayList<recycleMenuList>() // 메뉴 list
+        var userMenuList = ArrayList<usermenu>()
     }
 // userorder 처리
     var tablayout : TabLayout? = null
@@ -37,6 +40,11 @@ class StoreMenuListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.storemenuofmenu)
+        var userordermenu : ImageButton = findViewById(R.id.user_order)
+        userordermenu.setOnClickListener {
+            val intentUserOrder = Intent(this,CheckOrderMenu::class.java)
+            startActivity(intentUserOrder)
+        }
         tablayout = findViewById(R.id.tablayout_menulist)
         viewpager2 = findViewById(R.id.viewpager2_menulist)
 
@@ -87,6 +95,8 @@ class recycleMenuList(var name : String ,
 //)
 // tab index를 path에?
 // 처음에 k값을 받아오기
+
+data class usermenu(var menuname : String,var base : String, var price : String)
 
 interface MenuListService{
 

@@ -13,7 +13,6 @@ import java.util.*
 
 // stop 생명주기에 checkbox 초기화
 
-
 class StoreListActivity : AppCompatActivity() {
 
     companion object{
@@ -27,7 +26,6 @@ class StoreListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_store_select)
-
         tablayout = findViewById(R.id.tablayout_category)
         viewpager2 = findViewById(R.id.viewpager2_category)
 

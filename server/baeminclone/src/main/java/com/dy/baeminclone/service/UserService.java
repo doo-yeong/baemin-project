@@ -48,8 +48,8 @@ public class UserService {
         return user;
     }
 
-    public boolean signIn(User user) {
-        return userRepository.existsByUser(user);
+    public boolean signIn(String email, String password) {
+        return userRepository.existsByUser(email, password);
     }
 
     public User getUserByEmail(String email){

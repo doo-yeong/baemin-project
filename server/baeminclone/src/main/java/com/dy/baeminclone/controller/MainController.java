@@ -71,20 +71,16 @@ public class MainController {
     @PostMapping("/users/signin")
     public JsonResponse signIn(@RequestBody RequestUser requestUser) {
         JsonResponse response = new JsonResponse();
-        User user = userService.getUserByEmail(requestUser.getEmail());
-
-        if (user == null) {
-            response.setResult(false);
-            return response;
-        }
-
+        User user;
         boolean result;
 
-        result = userService.signIn(user);
+        result = userService.signIn(requestUser.getEmail(), requestUser.getPassword());
+
+        response.setResult(result);
 
         if (result) {
+            user = userService.getUserByEmail(requestUser.getEmail());
             response.getContent().put("username", user.getUsername());
-            logger.info(user.toString());
         }
 
         response.setResult(result);

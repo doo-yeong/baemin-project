@@ -27,11 +27,12 @@ public class UserRepository {
         return user;
     }
 
-    public boolean existsByUser(User user) {
+    public boolean existsByUser(String email, String password) {
         try {
             return em.createQuery("select u from User u where u.email =:email and u.password =:password", User.class)
-                    .setParameter("email", user.getEmail())
-                    .setParameter("password", user.getPassword()).getSingleResult() != null;
+                    .setParameter("email", email)
+                    .setParameter("password", password)
+                    .getSingleResult() != null;
         } catch (NoResultException e){
             return false;
         }
@@ -40,7 +41,7 @@ public class UserRepository {
 
     public User findByEmail(String email) {
         try {
-            return em.createQuery("select u from User u", User.class).getSingleResult();
+            return em.createQuery("select u from User u where u.email =:email", User.class).setParameter("email", email).getSingleResult();
         } catch (NoResultException e){
             return null;
         }

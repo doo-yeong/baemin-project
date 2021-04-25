@@ -7,7 +7,15 @@
 
 ## Baemin-Android
 
-### 
+### 1. Environment
+
+- Android Studio 4.1.2
+- Kotlin 1.4.21
+
+### 2. SDK Version
+
+- minSdkVersion : 21
+- targerSdkVersion : 30
 
 
 
